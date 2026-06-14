@@ -1,0 +1,21 @@
+{
+  "runtime": "Net90",
+  "documentGenerator": {
+    "fromDocument": {
+      "url": "http://127.0.0.1:8000/openapi.json"
+    }
+  },
+  "codeGenerators": {
+    "openApiToTypeScriptClient": {
+      "className": "OragClient",
+      "template": "Fetch",
+      "operationGenerationMode": "SingleClientFromOperationId",
+      "output": "src/api/orag-client.ts",
+      "generateClientClasses": true,
+      "generateDtoTypes": true,
+      "typeScriptVersion": 5.0,
+      "nullValue": "Undefined",
+      "markOptionalProperties": true
+    }
+  }
+}
