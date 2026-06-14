@@ -1,0 +1,40 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Virtual env
+.venv/
+venv/
+env/
+
+# IDE
+.idea/
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Local config / secrets
+.env
+.env.*
+*.local
+
+# RAG generated data
+data/
+*.pkl
+
+# Vision/cache outputs
+.rag-cache/
+vision_cache/
+ocr_cache/
+
+# Sample/generated files if nechceš pushovať test obrázky
+sample_images/

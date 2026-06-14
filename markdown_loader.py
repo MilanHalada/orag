@@ -1,0 +1,32 @@
+from pathlib import Path
+
+from config import IGNORED_DIR_NAMES
+from models import Document
+
+
+def should_ignore_path(path: Path) -> bool:
+    return any(part in IGNORED_DIR_NAMES for part in path.parts)
+
+
+def load_markdown_documents(folder: Path) -> list[Document]:
+    documents: list[Document] = []
+
+    for path in folder.rglob("*.md"):
+
+        if should_ignore_path(path):
+            continue
+
+        text = path.read_text(encoding="utf-8", errors="ignore")
+
+        if not text.strip():
+            continue
+
+        documents.append(
+            Document(
+                title=path.stem,
+                source=str(path),
+                text=text,
+            )
+        )
+
+    return documents
