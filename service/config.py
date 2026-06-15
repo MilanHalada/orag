@@ -7,9 +7,9 @@ CHAT_MODEL = "google/gemma-4-e4b"
 EMBEDDING_MODEL = "text-embedding-bge-m3"
 VISION_MODEL = "qwen/qwen2.5-vl-7b"
 
-INDEX_PATH = Path("data/index.pkl")
+INDEX_PATH = Path("../data/index.pkl")
 KB_PATH = Path("/home/milan/dev/notes/Notes")
-VISION_CACHE_PATH = Path("data/vision_cache")
+VISION_CACHE_PATH = Path("../data/vision_cache")
 
 IGNORED_DIR_NAMES = {
     ".obsidian",

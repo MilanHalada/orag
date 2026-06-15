@@ -4,9 +4,9 @@ from pathlib import Path
 
 from openai import OpenAI
 
-from models import Document, Chunk
-from config import EMBEDDING_MODEL
-from vision import describe_image_cached
+from service.models import Document, Chunk
+from service.config import EMBEDDING_MODEL
+from service.vision import describe_image_cached
 
 
 def split_text(text: str, max_chars: int = 800, overlap: int = 150) -> list[str]:
@@ -100,6 +100,7 @@ def images_to_chunks(client: OpenAI, images: list[Path], max_images: int = 10) -
         if index >= max_images:
             break
 
+        print(f"Spacovavam obr. {index}/{len(images)}. {image_path}" , end="\r")
         description = describe_image_cached(client, image_path)
 
         if not description.strip():

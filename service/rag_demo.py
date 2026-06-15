@@ -1,11 +1,11 @@
-from chunking import documents_to_chunks, images_to_chunks
-from config import INDEX_PATH,KB_PATH
-from image_loader import load_images
-from index_store import get_or_build_index
-from lmstudio_client import create_client
-from markdown_loader import load_markdown_documents
-from rag_chat import print_sources, ask_with_context_stream
-from retrieval import search
+from service.chunking import documents_to_chunks, images_to_chunks
+from service.config import INDEX_PATH,KB_PATH
+from service.image_loader import load_images
+from service.index_store import get_or_build_index
+from service.lmstudio_client import create_client
+from service.markdown_loader import load_markdown_documents
+from service.rag_chat import print_sources, ask_with_context_stream
+from service.retrieval import search
 
 
 def main() -> None:
@@ -19,7 +19,7 @@ def main() -> None:
     print(f"Načítaných obrazkov: {len(images)}")
 
     md_chunks = documents_to_chunks(documents)
-    image_chunks = images_to_chunks(client, images, max_images=10)
+    image_chunks = images_to_chunks(client, images, max_images=999)
 
     chunks = md_chunks + image_chunks
     print(f"Načítaných chunkov: {len(chunks)}")

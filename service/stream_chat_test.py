@@ -1,5 +1,5 @@
-from config import CHAT_MODEL
-from lmstudio_client import create_client
+from service.config import CHAT_MODEL
+from service.lmstudio_client import create_client
 
 def main() -> None:
     client = create_client()

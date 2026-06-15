@@ -1,7 +1,7 @@
 from pathlib import Path
 
-from config import IGNORED_DIR_NAMES
-from models import Document
+from service.config import IGNORED_DIR_NAMES
+from service.models import Document
 
 
 def should_ignore_path(path: Path) -> bool:

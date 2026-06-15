@@ -1,5 +1,5 @@
 from openai import OpenAI
-from config import EMBEDDING_MODEL
+from service.config import EMBEDDING_MODEL
 
 
 def get_embedding(client: OpenAI, text: str) -> list[float]:

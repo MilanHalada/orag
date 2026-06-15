@@ -5,8 +5,8 @@ from pathlib import Path
 from openai import OpenAI
 from PIL import Image
 
-from cache import file_sha256, write_text_cache, read_text_cache
-from config import VISION_MODEL, VISION_CACHE_PATH
+from service.cache import file_sha256, write_text_cache, read_text_cache
+from service.config import VISION_MODEL, VISION_CACHE_PATH
 
 
 def image_to_png_base64(image_path: Path) -> str:

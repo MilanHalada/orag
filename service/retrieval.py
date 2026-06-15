@@ -1,8 +1,9 @@
 import math
 
 from openai import OpenAI
-from embeddings import get_embedding
-from models import IndexedChunk, Chunk
+
+from service.embeddings import get_embedding
+from service.models import IndexedChunk, Chunk
 
 
 def cosine_similarity(a: list[float], b: list[float]) -> float:

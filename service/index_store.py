@@ -3,9 +3,9 @@ import pickle
 from pathlib import Path
 from openai import OpenAI
 
-from models import Chunk, IndexedChunk, IndexData
-from embeddings import get_embedding
-from chunking import calculate_chunks_hash
+from service.models import Chunk, IndexedChunk, IndexData
+from service.embeddings import get_embedding
+from service.chunking import calculate_chunks_hash
 
 def save_index(indexed_data: IndexData, path: Path) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)

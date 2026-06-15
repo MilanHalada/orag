@@ -1,7 +1,6 @@
 from pathlib import Path
 
-from config import IGNORED_DIR_NAMES, VISION_SUPPORTED_SUFFIXES
-from models import Document
+from service.config import IGNORED_DIR_NAMES, VISION_SUPPORTED_SUFFIXES
 
 
 def should_ignore_path(path: Path) -> bool:

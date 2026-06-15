@@ -1,4 +1,4 @@
-from lmstudio_client import create_client
+from service.lmstudio_client import create_client
 
 def main():
     client = create_client()

@@ -1,8 +1,8 @@
 from openai import OpenAI
 from typing import Iterator
 
-from config import CHAT_MODEL
-from models import Chunk
+from service.config import CHAT_MODEL
+from service.models import Chunk
 
 def build_context(results: list[tuple[float, Chunk]]) -> str:
     context_parts: list[str] = []

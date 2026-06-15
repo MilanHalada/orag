@@ -1,5 +1,5 @@
 import config
-from lmstudio_client import create_client
+from service.lmstudio_client import create_client
 
 
 def main() -> None:
