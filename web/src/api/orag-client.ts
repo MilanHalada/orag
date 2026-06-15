@@ -200,6 +200,56 @@ export class OragClient {
         }
         return Promise.resolve<any>(null as any);
     }
+
+    /**
+     * Get Files
+     * @return Successful Response
+     */
+    view_file_content(body: FileRequest): Promise<string> {
+        let url_ = this.baseUrl + "/view_file_content";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_: RequestInit = {
+            body: content_,
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processView_file_content(_response);
+        });
+    }
+
+    protected processView_file_content(response: Response): Promise<string> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result200 = resultData200 !== undefined ? resultData200 : null as any;
+    
+            return result200;
+            });
+        } else if (status === 422) {
+            return response.text().then((_responseText) => {
+            let result422: any = null;
+            let resultData422 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result422 = HTTPValidationError.fromJS(resultData422);
+            return throwException("Validation Error", status, _responseText, _headers, result422);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<string>(null as any);
+    }
 }
 
 export class AskRequest implements IAskRequest {
@@ -316,6 +366,57 @@ export class AskResponse implements IAskResponse {
 export interface IAskResponse {
     answer: string;
     sources: SourceResponse[];
+
+    [key: string]: any;
+}
+
+export class FileRequest implements IFileRequest {
+    file?: string;
+
+    [key: string]: any;
+
+    constructor(data?: IFileRequest) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (this as any)[property] = (data as any)[property];
+            }
+        }
+        if (!data) {
+            this.file = "";
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            for (var property in _data) {
+                if (_data.hasOwnProperty(property))
+                    this[property] = _data[property];
+            }
+            this.file = _data["file"] !== undefined ? _data["file"] : "";
+        }
+    }
+
+    static fromJS(data: any): FileRequest {
+        data = typeof data === 'object' ? data : {};
+        let result = new FileRequest();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        for (var property in this) {
+            if (this.hasOwnProperty(property))
+                data[property] = this[property];
+        }
+        data["file"] = this.file;
+        return data;
+    }
+}
+
+export interface IFileRequest {
+    file?: string;
 
     [key: string]: any;
 }
@@ -623,7 +724,7 @@ export interface ILoc {
     [key: string]: any;
 }
 
-export class ApiException extends Error {
+export class SwaggerException extends Error {
     override message: string;
     status: number;
     response: string;
@@ -640,10 +741,10 @@ export class ApiException extends Error {
         this.result = result;
     }
 
-    protected isApiException = true;
+    protected isSwaggerException = true;
 
-    static isApiException(obj: any): obj is ApiException {
-        return obj.isApiException === true;
+    static isSwaggerException(obj: any): obj is SwaggerException {
+        return obj.isSwaggerException === true;
     }
 }
 
@@ -651,5 +752,5 @@ function throwException(message: string, status: number, response: string, heade
     if (result !== null && result !== undefined)
         throw result;
     else
-        throw new ApiException(message, status, response, headers, null);
+        throw new SwaggerException(message, status, response, headers, null);
 }
