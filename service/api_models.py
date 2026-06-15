@@ -24,3 +24,6 @@ class StatsResponse(BaseModel):
     images_count: int
     chunk_count: int
     indexed_chunk_count: int
+
+class FileRequest(BaseModel):
+    file: str = ""

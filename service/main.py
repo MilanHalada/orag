@@ -1,17 +1,18 @@
 import json
+from pathlib import Path
 from typing import Iterator
 
 from fastapi import FastAPI
 from fastapi.responses import StreamingResponse
 from fastapi.middleware.cors import CORSMiddleware
 
-from service.api_models import StatsResponse, SourceResponse, AskResponse, AskRequest
+from service.api_models import StatsResponse, SourceResponse, AskResponse, AskRequest, FileRequest
 from service.chunking import documents_to_chunks, images_to_chunks
 from service.config import KB_PATH, INDEX_PATH
 from service.image_loader import load_images
 from service.index_store import get_or_build_index
 from service.lmstudio_client import create_client
-from service.markdown_loader import load_markdown_documents
+from service.markdown_loader import load_markdown_documents, load_markdown_document
 from service.models import Chunk
 from service.rag_chat import ask_with_context_stream
 from service.retrieval import search
@@ -110,6 +111,26 @@ def ask_stream(request: AskRequest) -> StreamingResponse:
         media_type="text/event-stream",
     )
 
+@app.post("/view_file_content", operation_id="view_file_content")
+def get_files(request: FileRequest) -> str:
+
+    if not request.file:
+        return "File path is required"
+
+    pathFile = Path(request.file)
+
+    if not pathFile.exists():
+        return "File not found"
+
+    print(f"Loading file {request.file} - {KB_PATH.resolve()}")
+
+
+    if not pathFile.is_relative_to(KB_PATH.resolve()):
+        return "File must be in KB_PATH"
+
+
+    result = load_markdown_document(Path(request.file))
+    return result
 
 def results_to_sources(results: list[tuple[float, Chunk]]) -> list[SourceResponse]:
     sources: list[SourceResponse] = []

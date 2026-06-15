@@ -30,3 +30,9 @@ def load_markdown_documents(folder: Path) -> list[Document]:
         )
 
     return documents
+
+def load_markdown_document(file: Path) -> str:
+
+    text = file.read_text(encoding="utf-8", errors="ignore")
+
+    return text
